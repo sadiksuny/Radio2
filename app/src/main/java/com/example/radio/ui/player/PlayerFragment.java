@@ -1,6 +1,7 @@
 package com.example.radio.ui.player;
 
 import android.content.Context;
+import android.content.Intent;
 import android.media.AudioAttributes;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
@@ -19,11 +20,13 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.radio.R;
+import com.example.radio.service.RadioService;
 import com.example.radio.ui.radio.RadioFragment;
 
 import java.io.IOException;
@@ -34,7 +37,7 @@ import static com.example.radio.ui.radio.RadioFragment.currRadio;
 public class PlayerFragment extends Fragment {
 
     private PlayerViewModel playerViewModel;
-    private MediaPlayer mediaPlayer;
+    public static MediaPlayer mediaPlayer;
     public RadioFragment radioFragment;
     public String url;
     public String radioName;
@@ -44,6 +47,7 @@ public class PlayerFragment extends Fragment {
     private Button radioButton;
     private boolean radioOn;
     private boolean radioWasOnBefore;
+    private RadioService radioService;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -84,8 +88,8 @@ public class PlayerFragment extends Fragment {
             }
         });
         radioOn= false;
+        mediaPlayer= new MediaPlayer();
 
-        mediaPlayer = new MediaPlayer();
         radioWasOnBefore= false;
         radioButton= root.findViewById(R.id.radioButton);
         radioButton.setOnClickListener(new View.OnClickListener() {
