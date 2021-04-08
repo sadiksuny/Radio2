@@ -4,6 +4,7 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -14,6 +15,7 @@ import com.example.radio.R;
 import com.example.radio.model.RadioStation;
 import com.example.radio.model.RadioStations;
 import com.example.radio.ui.radio.RadioFragment;
+import com.squareup.picasso.Picasso;
 
 public class RadioAdapter extends RecyclerView.Adapter<RadioAdapter.ViewHolder> {
     LayoutInflater inflater;
@@ -34,6 +36,8 @@ public class RadioAdapter extends RecyclerView.Adapter<RadioAdapter.ViewHolder> 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         holder.radioName.setText(radioStations.radioStationsArray[position].getRadioName());
+        Picasso.get().load(radioStations.radioStationsArray[position].getRadioImageLink()).into(holder.radioImage);
+
     }
 
     @Override
@@ -43,9 +47,11 @@ public class RadioAdapter extends RecyclerView.Adapter<RadioAdapter.ViewHolder> 
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         TextView radioName;
+        ImageView radioImage;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             radioName= itemView.findViewById(R.id.radioName);
+            radioImage= itemView.findViewById(R.id.radioImage);
             itemView.setOnClickListener((this));
         }
 

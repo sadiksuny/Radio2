@@ -8,10 +8,7 @@ import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.HandlerThread;
-import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -25,13 +22,13 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.example.radio.MainActivity;
 import com.example.radio.R;
 import com.example.radio.service.RadioService;
 import com.example.radio.ui.radio.RadioFragment;
 
 import java.io.IOException;
 
-import static androidx.core.content.ContextCompat.getSystemService;
 import static com.example.radio.ui.radio.RadioFragment.currRadio;
 
 public class PlayerFragment extends Fragment {
@@ -91,14 +88,16 @@ public class PlayerFragment extends Fragment {
         mediaPlayer= new MediaPlayer();
 
         radioWasOnBefore= false;
-        radioButton= root.findViewById(R.id.radioButton);
+        radioButton= root.findViewById(R.id.radioOnButton);
         radioButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                Intent i = new Intent(getActivity(), RadioService.class);
+                i.putExtra("radioExtra", radioName);
                 if (radioOn) { // ON so Turn OFF
                     radioOn = false;
                     radioButton.setText("Turn radio ON");
+                    getActivity().stopService(i);
                     if (mediaPlayer.isPlaying()) {
                         //Log.i(TAG, "Radio is playing- turning off " );
                         radioWasOnBefore = true;
@@ -107,6 +106,7 @@ public class PlayerFragment extends Fragment {
                 } else { // OFF so Turn ON
                     radioOn = true;
                     radioButton.setText("Turn radio OFF");
+                    getActivity().startService(i);
                     if (!mediaPlayer.isPlaying()) {
                         if (radioWasOnBefore) {
                             mediaPlayer.release();
@@ -122,7 +122,12 @@ public class PlayerFragment extends Fragment {
         playerViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
             @Override
             public void onChanged(@Nullable String s) {
-
+                /***
+                s= radioName;
+                Intent i = new Intent(getContext(), RadioService.class);
+                i.putExtra("radioExtra", s);
+                ContextCompat.startForegroundService(getContext(),i);
+                 **/
             }
         });
         return root;

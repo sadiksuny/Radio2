@@ -21,14 +21,18 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
-        android:id="@+id/radioButton"
+        android:id="@+id/radioOnButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Radio On/Off"
+        android:onClick="startService"
+        android:text="Radio On"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.288"
+        tools:ignore="OnClick" />
 
     <TextView
         android:id="@+id/playerRadioName"
@@ -36,7 +40,7 @@
         android:layout_height="wrap_content"
         android:text="RadioName"
         android:textSize="36sp"
-        app:layout_constraintBottom_toTopOf="@+id/radioButton"
+        app:layout_constraintBottom_toTopOf="@+id/radioOnButton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
